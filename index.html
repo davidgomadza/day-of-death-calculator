@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BitcoinAYT - Digital Day of Death Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a1a2a, #1a3c6e);
+            color: #f5f5f5;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(18, 18, 18, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #1a3c6e, #2775ca);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+        
+        .logo h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo span {
+            color: #f2a900;
+            background: #121212;
+            padding: 0.3rem 0.8rem;
+            border-radius: 8px;
+        }
+        
+        .date-badge {
+            background: #f2a900;
+            color: #121212;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: inline-block;
+            margin: 1rem 0;
+        }
+        
+        .magic-hour {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-top: 1rem;
+            color: #f2a900;
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        .death-calculator {
+            background: rgba(39, 117, 202, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            border: 1px solid #2775ca;
+        }
+        
+        .death-calculator h2 {
+            color: #f2a900;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+        
+        .calculator-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #f2a900;
+        }
+        
+        .form-group input, .form-group select {
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid #2775ca;
+            background: rgba(10, 26, 42, 0.7);
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .calculate-btn {
+            background: linear-gradient(to right, #f2a900, #ffcc00);
+            color: #121212;
+            border: none;
+            padding: 1.2rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(242, 169, 0, 0.4);
+        }
+        
+        .result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(242, 169, 0, 0.1);
+            border-radius: 8px;
+            border-left: 5px solid #f2a900;
+            text-align: center;
+            display: none;
+        }
+        
+        .result h3 {
+            color: #f2a900;
+            margin-bottom: 1rem;
+        }
+        
+        .cure-section {
+            background: rgba(40, 167, 69, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            border: 1px solid #28a745;
+        }
+        
+        .cure-section h2 {
+            color: #28a745;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .pricing {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .price-card {
+            background: rgba(10, 26, 42, 0.7);
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 250px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-top: 5px solid #f2a900;
+        }
+        
+        .price-card h3 {
+            color: #f2a900;
+            margin-bottom: 1rem;
+        }
+        
+        .price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #28a745;
+            margin: 1rem 0;
+        }
+        
+        .airdrop {
+            background: linear-gradient(135deg, #1a3c6e, #2775ca);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .airdrop h2 {
+            color: #f2a900;
+            margin-bottom: 1rem;
+        }
+        
+        .claim-btn {
+            background: linear-gradient(to right, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .claim-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            background: rgba(10, 26, 42, 0.7);
+            border-top: 1px solid #2775ca;
+        }
+        
+        .website {
+            color: #f2a900;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .logo h1 {
+                font-size: 2rem;
+            }
+            
+            .pricing {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>BITCOIN<span>AYT</span></h1>
+            </div>
+            <div class="date-badge">
+                26 NOV 2025
+            </div>
+            <div class="magic-hour">MAGIC HOUR</div>
+        </header>
+        
+        <div class="content">
+            <div class="death-calculator">
+                <h2><i class="fas fa-skull"></i> CHECK YOUR DAY OF DEATH</h2>
+                <p>Discover your predicted day of departure with our advanced Digital Day of Death Calculator</p>
+                
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label for="birthdate">Date of Birth:</label>
+                        <input type="date" id="birthdate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lifestyle">Lifestyle Category:</label>
+                        <select id="lifestyle" required>
+                            <option value="">Select your lifestyle</option>
+                            <option value="sedentary">Sedentary (Office worker, low activity)</option>
+                            <option value="moderate">Moderate (Active, exercises occasionally)</option>
+                            <option value="active">Active (Exercises regularly, healthy diet)</option>
+                            <option value="athlete">Athlete (Professional sports person)</option>
+                            <option value="risky">Risky (Dangerous job or hobbies)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="health">Current Health Status:</label>
+                        <select id="health" required>
+                            <option value="">Select health status</option>
+                            <option value="excellent">Excellent (No issues)</option>
+                            <option value="good">Good (Minor issues)</option>
+                            <option value="fair">Fair (Some chronic conditions)</option>
+                            <option value="poor">Poor (Multiple health issues)</option>
+                            <option value="critical">Critical (Serious illness)</option>
+                        </select>
+                    </div>
+                    
+                    <button class="calculate-btn" onclick="calculateDeath()">
+                        <i class="fas fa-calculator"></i> CALCULATE MY DEATH DAY
+                    </button>
+                </div>
+                
+                <div class="result" id="result">
+                    <h3>YOUR PREDICTED DAY OF DEATH</h3>
+                    <p id="deathDate"></p>
+                    <p>But there is hope! We have developed a revolutionary cure for death.</p>
+                </div>
+            </div>
+            
+            <div class="cure-section">
+                <h2><i class="fas fa-heartbeat"></i> WE HAVE A CURE FOR DEATH</h2>
+                <p>Our revolutionary AGT (Anti-Gero Therapy) technology can reverse aging and prevent death.</p>
+                <p>Purchase your AGT treatment today and cheat death!</p>
+                
+                <div class="pricing">
+                    <div class="price-card">
+                        <h3>Ordinary People</h3>
+                        <p>For those with limited resources</p>
+                        <div class="price">$100</div>
+                        <p>Basic AGT treatment</p>
+                    </div>
+                    
+                    <div class="price-card">
+                        <h3>Millionaires</h3>
+                        <p>For high-net-worth individuals</p>
+                        <div class="price">$100,000</div>
+                        <p>Enhanced AGT treatment with premium support</p>
+                    </div>
+                    
+                    <div class="price-card">
+                        <h3>Billionaires</h3>
+                        <p>For the ultra-wealthy</p>
+                        <div class="price">$1 Million</div>
+                        <p>Platinum AGT treatment with immortality guarantee</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="airdrop">
+                <h2><i class="fas fa-gift"></i> GET FREE AIRDROP</h2>
+                <p>Sign up now to receive free BTCYT tokens and get started on your path to immortality!</p>
+                <button class="claim-btn">CLAIM FREE AIRDROP NOW</button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>BITCOINAYT - The Future of Immortality Technology</p>
+            <a href="https://www.bitcoinayt.com" class="website">WEBSITE: www.bitcoinayt.com</a>
+            <p>Disclaimer: This is a fictional presentation. The Day of Death calculator is for entertainment purposes only.</p>
+        </footer>
+    </div>
+
+    <script>
+        function calculateDeath() {
+            const birthdate = new Date(document.getElementById('birthdate').value);
+            const lifestyle = document.getElementById('lifestyle').value;
+            const health = document.getElementById('health').value;
+            
+            if (!birthdate || !lifestyle || !health) {
+                alert('Please fill in all fields to calculate your day of death.');
+                return;
+            }
+            
+            // Calculate base lifespan (for demonstration purposes only)
+            let baseLifespan = 80; // Average lifespan in years
+            
+            // Adjust based on lifestyle
+            const lifestyleFactors = {
+                'sedentary': -5,
+                'moderate': 0,
+                'active': 5,
+                'athlete': 3, // Athletes might have wear and tear
+                'risky': -15
+            };
+            
+            // Adjust based on health
+            const healthFactors = {
+                'excellent': 5,
+                'good': 2,
+                'fair': -3,
+                'poor': -10,
+                'critical': -20
+            };
+            
+            // Calculate final lifespan
+            const finalLifespan = baseLifespan + lifestyleFactors[lifestyle] + healthFactors[health];
+            
+            // Calculate death date
+            const deathDate = new Date(birthdate);
+            deathDate.setFullYear(birthdate.getFullYear() + finalLifespan);
+            
+            // Add some random variation (+/- 2 years)
+            const randomVariation = Math.floor(Math.random() * 5) - 2;
+            deathDate.setFullYear(deathDate.getFullYear() + randomVariation);
+            
+            // Format date
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = deathDate.toLocaleDateString('en-US', options);
+            
+            // Display result
+            document.getElementById('deathDate').textContent = `Our calculations indicate you will die on: ${formattedDate}`;
+            document.getElementById('result').style.display = 'block';
+            
+            // Scroll to result
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
